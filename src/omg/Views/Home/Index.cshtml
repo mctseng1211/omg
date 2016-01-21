@@ -1,0 +1,69 @@
+﻿@inject omg.Models.TrafficStats stats;
+@{  
+    ViewData["Title"] = "About";
+}
+<h2>@ViewData["Title"]</h2>
+
+<form asp-controller="Home" asp-action="Index" method="get">
+    <select name="sarea">
+        <option value="信義區">信義區</option>
+        <option value="中正區">中正區</option>
+        <option value="大安區">大安區</option>
+        <option value="松山區">松山區</option>
+        <option value="大同區">大同區</option>
+        <option value="萬華區">萬華區</option>
+        <option value="中山區">中山區</option>
+        <option value="士林區">士林區</option>
+        <option value="北投區">北投區</option>
+        <option value="南港區">南港區</option>
+        <option value="內湖區">內湖區</option>
+        <option value="文山區">文山區</option>
+    </select>
+    <input type="submit" value="query">
+</form>
+<h3>@ViewData["sarea"]</h3>
+@{
+    if (ViewData["sarea"] != null)
+    {
+        await stats.GetModel("http://data.taipei/youbike", "youbike", ViewData["sarea"].ToString());
+        List<omg.Models.TrafficStats.YBInfo>  ybList = stats.GetYBList();
+        foreach (omg.Models.TrafficStats.YBInfo  ybInfo in ybList) {
+            int aBike = Convert.ToInt32(ybInfo.tot) - Convert.ToInt32(ybInfo.bemp);
+ 
+           <div><p> @ybInfo.sna  @ybInfo.bemp  @aBike </p></div>
+       }
+    }
+}
+
+
+       
+   <!--   foreach (string youbikevalue in Stats.GetYouBikeList())  -->
+
+
+<p>This is Info page.</p>
+<style>
+    [class*="col-"] {
+        background-color:lightblue;
+        border: 1px solid white;
+    }
+</style>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-md-8">
+            One
+        </div>
+        <div class="col-xs-6 col-md-4">
+            Two
+        </div>
+        <div class="col-xs-6 col-md-4">
+            Three
+        </div>
+        <div class="clearfix visible-xs"/>
+        <div class="col-xs-12 col-md-4">
+            Four
+        </div>
+        <div class="col-xs-12 col-md-4">
+            Five
+        </div>
+    </div>    
+</div>

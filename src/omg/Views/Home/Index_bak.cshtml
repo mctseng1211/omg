@@ -1,0 +1,63 @@
+﻿@inject omg.Models.TrafficStats stats;
+@{  
+    ViewData["Title"] = "About";
+}
+<h2>@ViewData["Title"]</h2>
+
+<form asp-controller="Home" asp-action="Info" method="get">
+    <input type="text" name="sarea" value="信義區" size="10"/>
+    <input type="submit" value="query">
+</form>
+
+<h3>@ViewData["sarea"]</h3>
+
+@{
+    if (ViewData["sarea"] != null)
+    {
+        await stats.GetModel("http://data.taipei/youbike", "youbike", ViewData["sarea"].ToString());
+        List<omg.Models.TrafficStats.YBInfo>  ybList = stats.GetYBList();
+        foreach (omg.Models.TrafficStats.YBInfo  ybInfo in ybList) {
+            int aBike = Convert.ToInt16(ybInfo.tot) - Convert.ToInt16(ybInfo.bemp);
+ 
+           <div><p> @ybInfo.sna  @ybInfo.bemp  @aBike </p></div>
+       }
+    }
+}
+
+
+
+
+
+    
+
+       
+   <!--   foreach (string youbikevalue in Stats.GetYouBikeList())  -->
+
+
+<p>This is Info page.</p>
+<style>
+    [class*="col-"] {
+        background-color:lightblue;
+        border: 1px solid blue;
+    }
+</style>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-md-8">
+            One
+        </div>
+        <div class="col-xs-6 col-md-4">
+            Two
+        </div>
+        <div class="col-xs-6 col-md-4">
+            Three
+        </div>
+        <div class="clearfix visible-xs"/>
+        <div class="col-xs-12 col-md-4">
+            Four
+        </div>
+        <div class="col-xs-12 col-md-4">
+            Five
+        </div>
+    </div>    
+</div>
